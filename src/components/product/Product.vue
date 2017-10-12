@@ -18,14 +18,26 @@
 						Buy
 					</a>
 				</p>
+
+				<hr>
+
+				<p v-if="itemproduct.user_id == authenticatedUser.id">
+					<a class="btn btn-danger" role="button"
+						v-on:click="$emit('delete-item')">Delete</a>
+
+					<router-link class="btn btn-primary" 
+						:to="'/products/' + itemproduct.id + '/edit' ">Edit</router-link>
+
+				</p>
+
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	
+
 	export default {
-		props: ['itemproduct']
+		props: ['itemproduct','authenticatedUser']
 	}
 </script>

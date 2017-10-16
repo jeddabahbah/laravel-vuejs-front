@@ -1,14 +1,14 @@
 <template>
 	<div class="col-md-4">
 		<div class="thumbnail">
-			<img src="http://th.seaicons.com/wp-content/uploads/2015/08/blue-user-icon.png" alt="">
+			<img :src="'http://back.dev/images/' + itemproduct.image">
 
 			<div class="caption">
 				<h4>{{ itemproduct.user_id }}</h4>
 				<h3>{{ itemproduct.name }}</h3>
 				<p>{{ itemproduct.price }}</p>
 
-				<hr>
+				<!-- <hr>
 
 				<p>
 					<a href="#" class="btn btn-default">
@@ -17,7 +17,7 @@
 					<a href="#" class="btn btn-success">
 						Buy
 					</a>
-				</p>
+				</p> -->
 
 				<hr>
 

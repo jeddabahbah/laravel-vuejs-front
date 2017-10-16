@@ -3,17 +3,27 @@
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
 				<div class="panel-body">
-
+				 <form @submit.prevent="create">
 					<div class="form-group">
 						<label>Name:</label>
-						<input type="text" class="form-control"
+						<input name="name" type="text" class="form-control"
+							v-validate="'required'"
 							v-model="product.name">
+						<div class="help-block alert alert-danger"
+							v-show="errors.has('name')">
+							{{ errors.first('name') }}
+						</div>
 					</div>
 
 					<div class="form-group">
 						<label>Price:</label>
-						<input type="number" class="form-control"
+						<input name="price" type="number" class="form-control"
+							v-validate="'max_value:50|min_value:1'"
 							v-model="product.price">
+						<div class="help-block alert alert-danger"
+							v-show="errors.has('price')">
+							{{ errors.first('price') }}
+						</div>
 					</div>
 
 					<div class="form-group">
@@ -22,12 +32,8 @@
 							v-model="product.description"></textarea>
 					</div>
 
-					<button class="btn btn-success pull-right"
-						v-on:click="create"
-						v-show="product.name && product.price && product.description">
-						Create
-					</button>
-
+					<input type="submit" class="btn btn-success pull-right" value="Create">
+				 </form>
 				</div>
 			</div>
 		</div>
@@ -47,11 +53,25 @@
 		},
 		methods: {
 			create() {
-				this.$http.post("api/products", this.product)
-					.then(response => {
-						console.log(response)
-						this.$router.push("/feed")
-					})
+				this.$validator.updateDictionary({
+					'al': {
+						attributes: {
+							name: 'your name'
+						}
+					}
+				})
+
+				this.$validator.setLocale('al')
+
+				this.$validator.validateAll().then((result) => {
+					if(result){
+							this.$http.post("api/products", this.product)
+							.then(response => {
+							//console.log(response)
+							this.$router.push("/feed")
+						})
+					}
+				})
 			}
 		}
 	}
